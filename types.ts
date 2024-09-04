@@ -14,14 +14,46 @@ export type HeroQuery = {
     }
 };
 
+export type AssetItem = {
+    fileName: string
+    title: string
+    width: number
+    height: number
+    url: string
+}
+
 export type LogoWallQuery = {
     assetCollection: {
+        items: AssetItem[]
+    }
+};
+
+export type HeaderNavQuery = {
+    navigationCollection: {
         items: {
-            fileName: string
+            name: string
+            linksCollection: {
+                items: {
+                    label: string
+                    link: string
+                }[]
+            }
+        }[]
+    }
+};
+
+export type CustomerPostQuery = {
+    customerPostCollection: {
+        items: {
             title: string
-            width: number
-            height: number
-            url: string
+            slug: string
+            body: {
+                json: JSON
+            }
+            customer: {
+                name: string
+                logo: AssetItem
+            }
         }[]
     }
 };

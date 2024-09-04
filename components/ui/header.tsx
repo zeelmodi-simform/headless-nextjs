@@ -1,43 +1,40 @@
-import Link from 'next/link'
-import Logo from './logo'
-import MobileMenu from './mobile-menu'
+import { getContentForHeaderNav } from '@/content/queries';
+import Link from 'next/link';
+import Logo from './logo';
+import MobileMenu from './mobile-menu';
 
-export default function Header() {
+export default async function Header() {
+
+  const data = await getContentForHeaderNav();
+  const links = data.navigationCollection.items[0].linksCollection.items
+
   return (
     <header className="absolute w-full z-30">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
 
-          {/* Site branding */}
+          {/* Site branding */ }
           <div className="flex-1">
             <Logo />
           </div>
 
-          {/* Desktop navigation */}
+          {/* Desktop navigation */ }
           <nav className="hidden md:flex md:grow">
 
-            {/* Desktop menu links */}
+            {/* Desktop menu links */ }
             <ul className="flex grow justify-center flex-wrap items-center">
-              <li>
-                <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" href="/about">About</Link>
-              </li>
-              <li>
-                <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" href="/integrations">Integrations</Link>
-              </li>
-              <li>
-                <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" href="/pricing">Pricing</Link>
-              </li>
-              <li>
-                <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" href="/customers">Customers</Link>
-              </li>
-              <li>
-                <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out" href="/changelog">Changelog</Link>
-              </li>
+              
+              { links.map((item) => (
+                <li key={ item.link }>
+                  <Link className="font-medium text-sm text-slate-300 hover:text-white mx-4 lg:mx-5 transition duration-150 ease-in-out"
+                    href={ item.link }>{ item.label }</Link>
+                </li>
+              )) }
             </ul>
 
           </nav>
 
-          {/* Desktop sign in links */}
+          {/* Desktop sign in links */ }
           <ul className="flex-1 flex justify-end items-center">
             <li>
               <Link className="font-medium text-sm text-slate-300 hover:text-white whitespace-nowrap transition duration-150 ease-in-out" href="/signin">Sign in</Link>
@@ -56,5 +53,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
