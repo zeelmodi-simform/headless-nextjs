@@ -1,4 +1,4 @@
-import { HeroQuery } from "@/types";
+import { HeroQuery, LogoWallQuery } from "@/types";
 import { contentGqlFetcher } from "./fetch";
 
 export const getContentForHero = async () => {
@@ -28,4 +28,28 @@ export const getContentForHero = async () => {
 
     return data;
 
+}
+
+export const getContentForLogoWall = async () => {
+    const query = `#graphql
+        query AssetCollection($where: AssetFilter) {
+            assetCollection(where: $where) {
+                items {
+                fileName
+                title
+                width
+                height
+                url
+                }
+            }
+        }
+    `;
+
+    const data = await contentGqlFetcher<LogoWallQuery>({ query, variables: { where: { "title_contains": "client" } } });
+
+    if (!data) {
+        throw Error('No data found');
+    }
+
+    return data
 }

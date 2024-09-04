@@ -1,25 +1,17 @@
 'use client'
 
-import { useEffect } from 'react'
 import Image from 'next/image'
+import { useEffect } from 'react'
 import Particles from './particles'
 
-import Client01 from '@/public/images/client-01.svg'
-import Client02 from '@/public/images/client-02.svg'
-import Client03 from '@/public/images/client-03.svg'
-import Client04 from '@/public/images/client-04.svg'
-import Client05 from '@/public/images/client-05.svg'
-import Client06 from '@/public/images/client-06.svg'
-import Client07 from '@/public/images/client-07.svg'
-import Client08 from '@/public/images/client-08.svg'
-import Client09 from '@/public/images/client-09.svg'
 
 // Import Swiper
+import { LogoWallQuery } from '@/types'
 import Swiper, { Autoplay } from 'swiper'
 import 'swiper/swiper.min.css'
 Swiper.use([Autoplay])
 
-export default function Clients() {
+export default function Clients({content}: {readonly content: LogoWallQuery['assetCollection']['items']}) {
 
   useEffect(() => {
     const carousel = new Swiper('.clients-carousel', {
@@ -41,19 +33,19 @@ export default function Clients() {
     <section>
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 
-        {/* Particles animation */}
+        {/* Particles animation */ }
         <div className="absolute inset-0 max-w-6xl mx-auto px-4 sm:px-6">
-          <Particles className="absolute inset-0 -z-10" quantity={5} />
+          <Particles className="absolute inset-0 -z-10" quantity={ 5 } />
         </div>
 
         <div className="py-12 md:py-16">
           <div className="overflow-hidden">
-            {/* Carousel built with Swiper.js [https://swiperjs.com/] */}
-            {/* * Custom styles in src/css/additional-styles/theme.scss */}
+            {/* Carousel built with Swiper.js [https://swiperjs.com/] */ }
+            {/* * Custom styles in src/css/additional-styles/theme.scss */ }
             <div className="clients-carousel swiper-container relative before:absolute before:inset-0 before:w-32 before:z-10 before:pointer-events-none before:bg-gradient-to-r before:from-slate-900 after:absolute after:inset-0 after:left-auto after:w-32 after:z-10 after:pointer-events-none after:bg-gradient-to-l after:from-slate-900">
               <div className="swiper-wrapper !ease-linear select-none items-center">
-                {/* Carousel items */}
-                <div className="swiper-slide !w-auto">
+                {/* Carousel items */ }
+                {/* <div className="swiper-slide !w-auto">
                   <Image src={Client01} alt="Client 01" width={110} height={21} />
                 </div>
                 <div className="swiper-slide !w-auto">
@@ -79,12 +71,19 @@ export default function Clients() {
                 </div>
                 <div className="swiper-slide !w-auto">
                   <Image className="mt-2" src={Client09} alt="Client 09" width={92} height={28} />
-                </div>
+                </div> */}
+                { content.map((item) => {
+                  return (
+                    <div className="swiper-slide !w-auto" key={ item.fileName }>
+                      <Image src={ item.url } alt={ item.title } width={ item.width } height={ item.height } />
+                    </div>
+                  )
+                }) }
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
