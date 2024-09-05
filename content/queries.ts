@@ -36,26 +36,26 @@ export const getContentForHeaderNav = async () => {
 
 };
 
-export const getContentForHero = async () => {
+export const getContentForHero = async (isDraft = false) => {
     const query = `#graphql
         query HeroCollection {
-            heroCollection {
+            heroCollection(preview: ${isDraft ? "true" : "false"}) {
                 items {
-                title
-                subtitle
-                preTitle
-                callToActionsCollection {
-                    items {
-                    link
-                    label
+                    title
+                    subtitle
+                    preTitle
+                    callToActionsCollection {
+                        items {
+                            link
+                            label
+                        }
                     }
-                }
                 }
             }
         }
     `
 
-    const data = await contentGqlFetcher<HeroQuery>({ query });
+    const data = await contentGqlFetcher<HeroQuery>({ query, preview: isDraft });
     
     if (!data) {
         throw Error('No data found');

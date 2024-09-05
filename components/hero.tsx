@@ -1,12 +1,14 @@
 import { getContentForHero } from '@/content/queries';
 import Illustration from '@/public/images/glow-bottom.svg';
+import { draftMode } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import Particles from './particles';
 
 export default async function Hero() {
 
-  const data = await getContentForHero();
+  const isDraft = draftMode().isEnabled
+  const data = await getContentForHero(isDraft);
   const content = data.heroCollection.items[0]
   const cta1 = content.callToActionsCollection.items[0]
   const cta2 = content.callToActionsCollection.items[1]
